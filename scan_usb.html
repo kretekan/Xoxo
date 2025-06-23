@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scan QR Peserta - Totem</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: monospace, monospace;
+      text-align: center;
+      padding-top: 80px;
+    }
+    input {
+      font-size: 32px;
+      width: 80%;
+      padding: 20px;
+      border: none;
+      background: #000;
+      color: #0f0;
+      text-align: center;
+      outline: none;
+      caret-color: #0f0;
+      letter-spacing: 2px;
+    }
+    .message {
+      margin-top: 40px;
+      font-size: 24px;
+      min-height: 30px;
+    }
+    button {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 8px 20px;
+      cursor: pointer;
+      background: #222;
+      border: 1px solid #0f0;
+      color: #0f0;
+      font-family: monospace;
+    }
+    button:hover {
+      background: #0f0;
+      color: #000;
+      border-color: #080;
+    }
+  </style>
+</head>
+<body onload="focusInput()">
+
+<h1>🔍 SCAN QR PESERTA</h1>
+<p>Gunakan scanner QR USB → akan redirect otomatis</p>
+
+<input type="text" id="qrInput" autofocus placeholder="Scan QR di sini" autocomplete="off" />
+
+<div class="message" id="message"></div>
+
+<button onclick="resetInput()">Reset Scan</button>
+
+<script>
+  const input = document.getElementById('qrInput');
+  const message = document.getElementById('message');
+  let buffer = "";
+
+  function focusInput() {
+    input.focus();
+    // Clear buffer and input if needed
+    if (!input.value) {
+      buffer = "";
+    }
+  }
+
+  function resetInput() {
+    buffer = "";
+    input.value = "";
+    message.innerText = "";
+    focusInput();
+  }
+
+  input.addEventListener('input', () => {
+    buffer = input.value.trim();
+
+    // Jika QR valid mengandung verify.php?id=
+    if (buffer.includes("verify.php?id=")) {
+      message.style.color = "#0f0";
+      message.innerText = "QR valid. Mengarahkan...";
+      setTimeout(() => {
+        window.location.href = buffer;
+      }, 300);
+    } 
+    else if (buffer.length > 50) {
+      message.style.color = "#f00";
+      message.innerText = "QR tidak valid. Ulangi scan.";
+      setTimeout(() => {
+        resetInput();
+      }, 1500);
+    }
+  });
+
+  // Fokus ulang otomatis setiap 3 detik supaya siap scan
+  setInterval(focusInput, 3000);
+</script>
+
+</body>
+</html>

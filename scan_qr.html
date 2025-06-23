@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Scan QR Peserta</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    #reader { width: 300px; margin: auto; }
+    .result { margin-top: 20px; font-size: 18px; color: green; }
+  </style>
+</head>
+<body>
+
+<h2>📷 Scan QR Peserta</h2>
+<p>Arahkan QR Code peserta ke kamera</p>
+
+<div id="reader"></div>
+<div class="result" id="result"></div>
+
+<script>
+  function onScanSuccess(decodedText, decodedResult) {
+    // Stop scanning setelah berhasil
+    html5QrcodeScanner.clear().then(() => {
+      document.getElementById('result').innerText = "QR terdeteksi: " + decodedText;
+      // Redirect ke halaman verify.php
+      window.location.href = decodedText;
+    }).catch(error => {
+      console.error("Clear scanner error", error);
+    });
+  }
+
+  function onScanError(errorMessage) {
+    // Optional: tampilkan error jika perlu
+  }
+
+  const html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 }
+  );
+  html5QrcodeScanner.render(onScanSuccess, onScanError);
+</script>
+
+</body>
+</html>

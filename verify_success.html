@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <title>✅ Terima Kasih!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            font-size: 22px;
+            margin-top: 80px;
+            color: #2e7d32;
+            background-color: #f0fdf4;
+        }
+        .checkmark {
+            font-size: 72px;
+            margin-bottom: 20px;
+            animation: pop 0.5s ease;
+        }
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .thanks {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .sub {
+            color: #444;
+            font-size: 18px;
+        }
+        #countdown {
+            font-size: 24px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkmark">✅</div>
+    <div class="thanks">Terima kasih, selamat menikmati acara! 🎉</div>
+    <div class="sub">Scan berikutnya akan dimulai dalam <span id="countdown">5</span> detik.</div>
+
+    <script>
+        let seconds = 5;
+        const countdown = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            seconds--;
+            countdown.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = 'totem.php';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
